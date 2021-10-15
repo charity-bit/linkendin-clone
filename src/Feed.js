@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import InputOption from "./InputOption";
+import Post from "./Post";
 import "./Feed.css";
 import {
   CalendarViewDay,
@@ -8,16 +9,58 @@ import {
   Image,
   Create,
 } from "@material-ui/icons";
+import { db } from "./firebase";
+import firebase from "firebase/compat";
 
 function Feed() {
+  const [input, setInput] = useState("");
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    //  onSnapshot => real time listener collection
+    //give us a snapshot everytime a post changes,gets added,deleted e.t.c
+    db.collection("posts").orderBy("timeStamp","desc").onSnapshot((snapshot) =>
+      setPosts(
+        snapshot.docs.map((doc) =>
+          //implicit return
+          ({
+            id: doc.id,
+            data: doc.data(),
+          })
+        )
+      )
+    );
+  }, []);
+
+  const sendPost = (e) => {
+    e.preventDefault(); //to prevent reloading of the page
+    db.collection("posts").add({
+      name: "Kareri",
+      description: "Student Council President",
+      message: input,
+      photoUrl:
+        "https://ih1.redbubble.net/image.1597183677.3139/st,small,507x507-pad,600x600,f8f8f8.u1.jpg",
+      timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
+    setInput("");
+  };
+
   return (
     <div className="feed">
+      {/* search */}
       <div className="feed__inputContainer">
         <div className="feed__input">
           <Create />
           <form>
-            <input type="text" placeholder="Start a post" />
-            <button type="submit">send</button>
+            <input
+              type="text"
+              placeholder="Start a post"
+              onChange={(e) => setInput(e.target.value)}
+              value={input}
+            />
+            <button onClick={sendPost} type="submit">
+              send
+            </button>
           </form>
         </div>
         <div className="feed__inputOptions">
@@ -32,6 +75,21 @@ function Feed() {
           />
         </div>
       </div>
+      {/* end of search */}
+      {/* posts */}
+      {posts.map(({ id, data: { name, description, message, photoUrl } }) => {
+        // keys help in re-rendering
+        //instead of re-renderng the intire list react will render the added one only
+        return (
+          <Post
+            key={id}
+            name={name}
+            description={description}
+            message={message}
+            photoUrl={photoUrl}
+          />
+        );
+      })}
     </div>
   );
 }
