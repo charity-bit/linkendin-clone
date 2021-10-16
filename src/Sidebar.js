@@ -1,8 +1,12 @@
 import React from "react";
 import "./Sidebar.css";
+import { useSelector } from "react-redux";
+import {selectUser} from './features/userSlice';
 import { Avatar } from "@material-ui/core";
 
 function Sidebar() {
+  //pull user from the redux store
+  const user = useSelector(selectUser);
   const recentItem = (topic) => {
     return (
       <div className="sidebar__recentItem">
@@ -20,10 +24,12 @@ function Sidebar() {
         />
         <Avatar
           className="sidebar__avatar"
-          src="https://ih1.redbubble.net/image.1597183677.3139/st,small,507x507-pad,600x600,f8f8f8.u1.jpg"
-        />
-        <h2>Kirari Momobami</h2>
-        <h4>Student Council President</h4>
+         src={user.photoUrl}
+        >
+          {user.email[0]}
+        </Avatar>
+        <h2>{user.displayName}</h2>
+        <h4>{user.email}</h4>
       </div>
       <div className="sidebar__stats">
         <div className="sidebar__stat">

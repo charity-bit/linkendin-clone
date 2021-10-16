@@ -9,7 +9,7 @@ const firebaseConfig = {
     appId: "1:296689940390:web:bd5c8bee3888292d418167"
   };
 
-  const firebaseApp = firebase.initializeApp(firebaseConfig);
+  const firebaseApp = firebase.initializeApp(firebaseConfig); //code to connect to our beckend
   const db = firebaseApp.firestore();
   const auth = firebase.auth();
 

@@ -19,6 +19,6 @@
 .headerOption__icon{
   object-fit: contain;  /* to keep aspect ratio */
   height: 25px !important; /* !important is to override material ui styles */
-  width: 25px;
+  width: 25px !important;
   
 }

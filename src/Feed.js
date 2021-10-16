@@ -11,12 +11,17 @@ import {
 } from "@material-ui/icons";
 import { db } from "./firebase";
 import firebase from "firebase/compat";
+import {useSelector} from 'react-redux';
+import {selectUser} from './features/userSlice';
 
 function Feed() {
+  const user = useSelector(selectUser);
+
   const [input, setInput] = useState("");
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
+    //basically get posts and re-renders Feed component everytime something changes
     //  onSnapshot => real time listener collection
     //give us a snapshot everytime a post changes,gets added,deleted e.t.c
     db.collection("posts").orderBy("timeStamp","desc").onSnapshot((snapshot) =>
@@ -35,11 +40,11 @@ function Feed() {
   const sendPost = (e) => {
     e.preventDefault(); //to prevent reloading of the page
     db.collection("posts").add({
-      name: "Kareri",
-      description: "Student Council President",
+      name: user.displayName,
+      description: user.email,
       message: input,
-      photoUrl:
-        "https://ih1.redbubble.net/image.1597183677.3139/st,small,507x507-pad,600x600,f8f8f8.u1.jpg",
+      photoUrl:user.photoUrl || "",
+
       timeStamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
     setInput("");
