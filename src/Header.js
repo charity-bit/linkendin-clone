@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import "./Header.css";
 import SearchIcon from "@material-ui/icons/Search";
 import HomeIcon from "@material-ui/icons/Home";
@@ -13,6 +13,7 @@ import { logout} from "./features/userSlice";
 
 function Header() {
   //fetch user from store
+
   const [avatar,setAvatar] = useState(true);
   const [title,setTitle]  = useState("me");
   const dispatch = useDispatch();
@@ -23,7 +24,10 @@ function Header() {
     setAvatar(false);
     setTitle("");
   };
-
+  useEffect(()=>{
+    setAvatar(false);
+    setTitle("");
+  },[])
   return (
     <div className="header">
       {/* start of left  */}

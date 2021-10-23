@@ -13,6 +13,7 @@ import { db } from "./firebase";
 import firebase from "firebase/compat";
 import {useSelector} from 'react-redux';
 import {selectUser} from './features/userSlice';
+import FlipMove from "react-flip-move";
 
 function Feed() {
   const user = useSelector(selectUser);
@@ -82,6 +83,7 @@ function Feed() {
       </div>
       {/* end of search */}
       {/* posts */}
+       
       {posts.map(({ id, data: { name, description, message, photoUrl } }) => {
         // keys help in re-rendering
         //instead of re-renderng the intire list react will render the added one only
@@ -95,6 +97,7 @@ function Feed() {
           />
         );
       })}
+      
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { ChatOutlined, SendOutlined, ShareOutlined, ThumbUpAltOutlined } from '@
 import InputOption from './InputOption';
 import './Post.css';
 
- function Post({name,description,message ,photoUrl}) {
+ const Post = ({name,description,message ,photoUrl}) => {
   return (
       <div className="post">
           <div className="post__header">
