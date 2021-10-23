@@ -24,10 +24,7 @@ function Header() {
     setAvatar(false);
     setTitle("");
   };
-  useEffect(()=>{
-    setAvatar(false);
-    setTitle("");
-  },[])
+
   return (
     <div className="header">
       {/* start of left  */}
